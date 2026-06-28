@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#121212" />
+  <link rel="manifest" href="manifest.json" />
+  <title>Throne Companion</title>
+  <style>
+    :root{--bg:#0d0d10;--panel:#17171c;--panel2:#22222a;--text:#f4efe4;--muted:#a9a093;--gold:#d7b56d;--line:rgba(255,255,255,.12);--accent:#8b1e2d;--crest:rgba(255,255,255,.055)}
+    *{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at top,var(--accent),transparent 33%),var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+    body:before{content:attr(data-crest);position:fixed;inset:82px 0 auto 0;text-align:center;font-size:min(54vw,260px);line-height:1;color:var(--crest);font-weight:900;pointer-events:none;z-index:-1;filter:blur(.2px)}
+    header{position:sticky;top:0;z-index:10;padding:16px 14px 10px;background:linear-gradient(to bottom,rgba(13,13,16,.96),rgba(13,13,16,.78));backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+    .top{display:flex;align-items:center;justify-content:space-between;gap:10px}.brand{display:flex;align-items:center;gap:10px}.mark{width:42px;height:42px;border:1px solid var(--gold);border-radius:14px;display:grid;place-items:center;background:rgba(215,181,109,.1);font-size:22px}.title{font-weight:900;letter-spacing:.4px}.sub{font-size:12px;color:var(--muted);margin-top:2px}.status{font-size:11px;color:var(--muted);text-align:right}.tabs{display:flex;margin-top:12px;background:rgba(0,0,0,.24);border:1px solid var(--line);border-radius:16px;padding:4px;gap:4px}.tab{flex:1;border:0;border-radius:12px;padding:10px 8px;color:var(--muted);background:transparent;font-weight:800}.tab.active{color:#140f07;background:var(--gold)}
+    main{padding:14px 14px 90px;max-width:760px;margin:0 auto}.row{display:flex;gap:8px;align-items:center}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.card{background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.025));border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:0 12px 40px rgba(0,0,0,.22)}
+    select,input,button{font:inherit}select,input{width:100%;padding:13px 12px;border-radius:14px;border:1px solid var(--line);background:rgba(0,0,0,.34);color:var(--text);outline:none}button{cursor:pointer}.btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:14px;padding:12px 14px;font-weight:800}.btn.gold{background:var(--gold);color:#120e06;border-color:var(--gold)}.btn.danger{background:#6e1d25}.btn.small{padding:8px 10px;border-radius:11px;font-size:12px}.filters{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.list{display:flex;flex-direction:column;gap:10px;margin-top:10px}.item{border:1px solid var(--line);background:rgba(20,20,25,.8);border-radius:16px;padding:12px;text-align:left;color:var(--text);width:100%}.item h3{margin:0 0 5px;font-size:16px}.meta{display:flex;gap:6px;flex-wrap:wrap;color:var(--muted);font-size:12px}.pill{display:inline-flex;align-items:center;gap:4px;padding:4px 8px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.055);font-size:12px;color:var(--muted)}.points{color:var(--gold);font-weight:900}.screen{display:none}.screen.active{display:block}.section-title{margin:18px 2px 8px;font-size:14px;text-transform:uppercase;letter-spacing:.12em;color:var(--gold);font-weight:900}.empty{padding:22px;text-align:center;color:var(--muted)}
+    .army-head{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}.score{font-size:28px;font-weight:950;color:var(--gold)}.army-lines{display:flex;flex-direction:column;gap:8px}.army-line{display:flex;justify-content:space-between;gap:10px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:10px;background:rgba(0,0,0,.18)}.army-line strong{font-size:14px}.drawer{position:fixed;inset:auto 0 0 0;z-index:30;background:#121216;border-top:1px solid var(--line);border-radius:22px 22px 0 0;max-height:84vh;transform:translateY(105%);transition:.2s ease;box-shadow:0 -20px 60px rgba(0,0,0,.55);padding:14px;overflow:auto}.drawer.open{transform:translateY(0)}.shade{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:20;display:none}.shade.open{display:block}.detail h2{margin:0 0 4px}.statgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.stat{border:1px solid var(--line);border-radius:14px;text-align:center;padding:10px;background:rgba(255,255,255,.04)}.stat b{display:block;color:var(--gold);font-size:18px}.textblock{line-height:1.45;color:#eee}.kw{color:var(--gold);font-weight:900;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}.attack{border:1px solid var(--line);border-radius:14px;padding:10px;margin:8px 0}.toast{position:fixed;left:14px;right:14px;bottom:18px;z-index:50;background:#1f1f26;border:1px solid var(--line);border-radius:15px;padding:12px;color:var(--text);display:none}.toast.show{display:block}.tiny{font-size:11px;color:var(--muted)}
+    @media(min-width:720px){.filters{grid-template-columns:2fr 1fr 1fr 1fr}.grid{grid-template-columns:repeat(4,1fr)}}
+  </style>
+</head>
+<body data-crest="♛">
+<header>
+  <div class="top"><div class="brand"><div class="mark" id="crestMark">♛</div><div><div class="title">Throne Companion</div><div class="sub">Stats + Army Builder</div></div></div><div class="status" id="status">Loading data…</div></div>
+  <div class="tabs"><button class="tab active" data-tab="cards">Cards</button><button class="tab" data-tab="army">Army</button><button class="tab" data-tab="rules">Rules</button></div>
+</header>
+<main>
+  <section id="cards" class="screen active">
+    <div class="card">
+      <input id="search" placeholder="Search cards, abilities, keywords…" />
+      <div class="filters"><select id="factionFilter"></select><select id="roleFilter"></select><select id="costFilter"></select><select id="sortFilter"><option value="name">Sort: Name</option><option value="cost">Sort: Cost</option><option value="faction">Sort: Faction</option></select></div>
+    </div>
+    <div id="cardList" class="list"></div>
+  </section>
+  <section id="army" class="screen">
+    <div class="card army-head"><div><div class="section-title" style="margin:0 0 8px">Army Builder</div><select id="armyFaction"></select></div><div class="score"><span id="armyPoints">0</span>/<span id="armyLimit">40</span></div></div>
+    <div class="card" style="margin-top:10px"><label class="tiny">Commander</label><select id="commanderSelect"></select></div>
+    <div class="section-title">Combat Units</div><div id="armyUnits" class="army-lines"></div><button class="btn gold" id="addUnit">+ Add Combat Unit</button>
+    <div class="section-title">Attachments</div><div id="armyAttachments" class="army-lines"></div><button class="btn gold" id="addAttachment">+ Add Attachment</button>
+    <div class="section-title">NCUs</div><div id="armyNcus" class="army-lines"></div><button class="btn gold" id="addNcu">+ Add NCU</button>
+    <div class="section-title">Tactics Deck</div><div class="card"><div class="tiny">Faction baseline tactics + selected commander tactics. Changes automatically when commander changes.</div><div id="tacticsDeck" class="list"></div></div>
+    <div class="row" style="margin-top:12px"><button class="btn" id="saveArmy">Save Army</button><button class="btn danger" id="clearArmy">Clear</button></div>
+  </section>
+  <section id="rules" class="screen"><div class="card"><input id="rulesSearch" placeholder="Search rules e.g. Weakened, Critical Blow…" /></div><div id="rulesList" class="list"></div></section>
+</main>
+<div id="shade" class="shade"></div><div id="drawer" class="drawer"></div><div id="toast" class="toast"></div>
+<script>
+const SOURCES=['stark','lannister','baratheon','targaryen','nightswatch','freefolk','greyjoy','martell','bolton','brotherhood','neutral'].map(f=>`https://raw.githubusercontent.com/Pf2eTools/asoiaf-tmg-data/master/data/en/${f}.json`);
+const FACTION_NAMES={stark:'Stark',lannister:'Lannister',baratheon:'Baratheon',targaryen:'Targaryen',nightswatch:"Night's Watch",freefolk:'Free Folk',greyjoy:'Greyjoy',martell:'Martell',bolton:'Bolton',brotherhood:'Brotherhood',neutral:'Neutral'};
+const CRESTS={stark:'🐺',lannister:'🦁',baratheon:'🦌',targaryen:'🐉',nightswatch:'⚫',freefolk:'🦣',greyjoy:'🦑',martell:'☀️',bolton:'☠️',brotherhood:'🔥',neutral:'♛'};
+const THEMES={stark:'#26384d',lannister:'#611923',baratheon:'#6b5616',targaryen:'#491622',nightswatch:'#1c1f24',freefolk:'#314247',greyjoy:'#173b3b',martell:'#7a3d16',bolton:'#4b141a',brotherhood:'#673117',neutral:'#39302a'};
+const GLOSSARY={
+'Weakened':'When a unit with a Weakened token is attacking, defending, or taking a Panic Test, the opponent may remove the token to force that unit to re-roll any dice.',
+'Vulnerable':'When a unit with a Vulnerable token is defending against an Attack, the opponent may remove the token to force that unit to re-roll any Defense Save dice.',
+'Panicked':'When a unit with a Panicked token is taking a Panic Test, the opponent may remove the token to force that unit to re-roll any dice.',
+'Critical Blow':'When attacking, each natural roll of 6 scores an additional hit.',
+'Precision':'When attacking, Defense Save rolls of 6 do not block hits from this attack.',
+'Sundering':'Defenders suffer -1 to Defense Save rolls against this attack.',
+'Vicious':'Defenders suffer -2 to their Panic Test from this attack.',
+'Panic Test':'A Morale test usually taken after suffering wounds from an attack or rule effect. Failed tests usually cause additional wounds.',
+'Morale Test':'Roll two dice and compare to the unit’s Morale value, applying modifiers. Equal or higher is usually a success.',
+'Order':'A once-per-round ability triggered at the timing shown on the card.',
+'Influence':'An NCU effect that attaches to a Combat Unit until the end of the round after the NCU claims a zone.',
+'Charge':'A movement action used to engage an enemy and perform an attack if successful.',
+'Maneuver':'A movement action allowing a unit to pivot and move up to its Speed.',
+'March':'A movement action allowing a unit to move farther, usually up to twice its Speed.',
+'Retreat':'An action used to disengage from enemies.',
+'Shift':'A short movement, usually without pivoting unless the effect says otherwise.',
+'Long Range':'A distance band used by many ranged attacks and abilities.',
+'Short Range':'A distance band used by many ranged attacks and abilities.',
+'Cavalry':'This unit uses cavalry movement and tray rules.',
+'Solo':'A single-model unit type.',
+'Insignificant':'This unit usually does not count for certain scoring or victory effects.',
+'Attachment':'A character or upgrade added to a Combat Unit, usually increasing the unit cost.',
+'Commander':'The army leader. Selecting a Commander adds their commander tactics cards to the faction tactics deck.'
+};
+let allCards=[], dataLoaded=false;
+let army={faction:'stark',limit:40,commander:null,units:[],attachments:[],ncus:[]};
+const $=id=>document.getElementById(id);
+function toast(msg){$('toast').textContent=msg;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),3500)}
+function esc(s){return String(s??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
+function cleanRole(r){return ({unit:'Combat Unit',ncu:'NCU',attachment:'Attachment',commander:'Commander',tactics:'Tactics',special:'Special'})[r]||String(r||'Card')}
+function textOf(v){if(!v)return ''; if(Array.isArray(v))return v.map(textOf).join(' '); if(typeof v==='object')return Object.values(v).map(textOf).join(' '); return String(v)}
+function abilityNames(c){return (c.abilities||[]).map(a=>typeof a==='string'?a:a.name).filter(Boolean)}
+function abilityText(c){return (c.abilities||[]).map(a=>typeof a==='string'?a:textOf(a.effect||a.text||a)).join(' ')}
+function normalizeCard(c, role, sourceFaction){return {...c, role:c.role||role, faction:c.faction||sourceFaction, _type:cleanRole(c.role||role), _search:[c.name,c.title,c.faction,c.role,c.version,c.cost,c.tray,abilityNames(c).join(' '),abilityText(c),textOf(c.attacks),textOf(c.text),textOf(c.back_text)].join(' ').toLowerCase()}}
+async function loadData(){
+  const cached=localStorage.getItem('tc_cards_v1');
+  if(cached){try{allCards=JSON.parse(cached); dataLoaded=true; $('status').textContent=`${allCards.length} cards cached`; initUI(); fetchFresh(true); return;}catch(e){}}
+  await fetchFresh(false);
+}
+async function fetchFresh(silent){
+  try{
+    const packs=await Promise.all(SOURCES.map(u=>fetch(u,{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()})));
+    const cards=[]; packs.forEach(pack=>{const faction=pack?._meta?.id||'neutral'; Object.entries(pack).forEach(([k,v])=>{if(k.startsWith('_')||!Array.isArray(v))return; v.forEach(c=>cards.push(normalizeCard(c,k,faction)))})});
+    allCards=cards; localStorage.setItem('tc_cards_v1',JSON.stringify(cards)); dataLoaded=true; $('status').textContent=`${cards.length} cards loaded`; initUI(); if(!silent)toast('Card data loaded and cached for offline use.');
+  }catch(e){$('status').textContent='Data load failed'; if(!silent)toast('Could not fetch data. Try again online, then it will cache for offline use.'); initUI();}
+}
+function initUI(){populateFilters(); loadArmy(); renderCards(); renderArmy(); renderRules();}
+function populateFilters(){
+ const factions=['all',...Object.keys(FACTION_NAMES)]; $('factionFilter').innerHTML=factions.map(f=>`<option value="${f}">${f==='all'?'All factions':FACTION_NAMES[f]}</option>`).join('');
+ $('armyFaction').innerHTML=Object.keys(FACTION_NAMES).filter(f=>f!=='neutral').map(f=>`<option value="${f}">${FACTION_NAMES[f]}</option>`).join(''); $('armyFaction').value=army.faction;
+ const roles=['all','unit','attachment','ncu','commander','tactics','special']; $('roleFilter').innerHTML=roles.map(r=>`<option value="${r}">${r==='all'?'All types':cleanRole(r)}</option>`).join('');
+ $('costFilter').innerHTML=['all','0','1','2','3','4','5','6','7','8','9','10+'].map(c=>`<option value="${c}">${c==='all'?'Any cost':c+' pts'}</option>`).join('');
+ populateCommander(); applyTheme(army.faction);
+}
+function applyTheme(f){document.documentElement.style.setProperty('--accent',THEMES[f]||THEMES.neutral);document.body.setAttribute('data-crest',CRESTS[f]||'♛');$('crestMark').textContent=CRESTS[f]||'♛'}
+function renderCards(){
+ const q=$('search').value.trim().toLowerCase(), f=$('factionFilter').value, r=$('roleFilter').value, cost=$('costFilter').value, sort=$('sortFilter').value;
+ let cards=allCards.filter(c=>(f==='all'||c.faction===f)&&(r==='all'||c.role===r)&&costMatch(c,cost)&&(!q||c._search.includes(q))).filter(c=>['unit','attachment','ncu','commander','tactics','special'].includes(c.role));
+ cards.sort((a,b)=>sort==='cost'?(Number(a.cost??99)-Number(b.cost??99)||a.name.localeCompare(b.name)):sort==='faction'?String(a.faction).localeCompare(String(b.faction))||a.name.localeCompare(b.name):a.name.localeCompare(b.name));
+ $('cardList').innerHTML=cards.slice(0,240).map(c=>cardItem(c)).join('') || `<div class="empty">No cards found.</div>`;
+ document.querySelectorAll('[data-open-card]').forEach(el=>el.onclick=()=>openCard(el.dataset.openCard));
+}
+function costMatch(c,cost){if(cost==='all')return true; const n=Number(c.cost); if(cost==='10+')return n>=10; return n===Number(cost)}
+function cardItem(c){return `<button class="item" data-open-card="${esc(c.id)}"><h3>${esc(c.name)} ${c.title?`<span class="tiny">— ${esc(c.title)}</span>`:''}</h3><div class="meta"><span class="pill">${esc(FACTION_NAMES[c.faction]||c.faction)}</span><span class="pill">${esc(c._type)}</span>${c.cost!==undefined?`<span class="pill points">${c.cost} pts</span>`:''}${c.version?`<span class="pill">${esc(c.version)}</span>`:''}</div>${statsLine(c)}</button>`}
+function statsLine(c){if(!['unit'].includes(c.role))return ''; return `<div class="meta" style="margin-top:8px"><span>Move ${c.speed??'-'}</span><span>Def ${c.defense?c.defense+'+':'-'}</span><span>Morale ${c.morale?c.morale+'+':'-'}</span><span>${esc(c.tray||'')}</span></div>`}
+function openCard(id){const c=allCards.find(x=>String(x.id)===String(id)); if(!c)return; openDrawer(`<div class="detail"><h2>${esc(c.name)}</h2><div class="meta"><span class="pill">${esc(FACTION_NAMES[c.faction]||c.faction)}</span><span class="pill">${esc(c._type)}</span>${c.cost!==undefined?`<span class="pill points">${c.cost} pts</span>`:''}${c.version?`<span class="pill">${esc(c.version)}</span>`:''}</div>${cardStats(c)}${attacksHtml(c)}${abilitiesHtml(c)}${tacticsTextHtml(c)}${backTextHtml(c)}</div>`)}
+function cardStats(c){if(c.role!=='unit')return '';return `<div class="section-title">Stats</div><div class="statgrid"><div class="stat">Move<b>${c.speed??'-'}</b></div><div class="stat">Def<b>${c.defense?c.defense+'+':'-'}</b></div><div class="stat">Morale<b>${c.morale?c.morale+'+':'-'}</b></div><div class="stat">Cost<b>${c.cost??'-'}</b></div></div>`}
+function attacksHtml(c){if(!c.attacks?.length)return '';return `<div class="section-title">Attacks</div>`+c.attacks.map(a=>`<div class="attack"><b>${linkTerms(a.name)}</b><div class="meta"><span class="pill">${esc(a.type||'')}</span><span class="pill">Hit ${a.hit?`${a.hit}+`:'-'}</span><span class="pill">Dice ${(a.dice||[]).join('/')}</span></div></div>`).join('')}
+function abilitiesHtml(c){const arr=c.abilities||[]; if(!arr.length)return '';return `<div class="section-title">Abilities</div>`+arr.map(a=>typeof a==='string'?`<div class="attack"><b>${linkTerms(a)}</b></div>`:`<div class="attack"><b>${linkTerms(a.name||'Ability')}</b><div class="textblock">${linkTerms(textOf(a.effect||a.text||a))}</div></div>`).join('')}
+function tacticsTextHtml(c){if(!c.text?.length)return '';return `<div class="section-title">Text</div>`+c.text.map(t=>`<div class="attack"><b>${linkTerms(t.trigger||'Trigger')}</b><div class="textblock">${linkTerms(textOf(t.effect||t))}</div></div>`).join('')}
+function backTextHtml(c){if(!c.back_text?.length)return '';return `<div class="section-title">Notes</div>`+c.back_text.map(t=>`<div class="attack"><b>${linkTerms(t.name||'Note')}</b><div class="textblock">${linkTerms(textOf(t.text||t))}</div></div>`).join('')}
+function linkTerms(txt){let out=esc(txt).replace(/\*\*/g,''); Object.keys(GLOSSARY).sort((a,b)=>b.length-a.length).forEach(term=>{const re=new RegExp(`\\b${term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}\\b`,'gi'); out=out.replace(re,m=>`<span class="kw" data-rule="${esc(term)}">${m}</span>`)}); return out}
+function openRule(term){const cards=allCards.filter(c=>c._search.includes(term.toLowerCase())).slice(0,30); openDrawer(`<h2>${esc(term)}</h2><div class="textblock">${esc(GLOSSARY[term]||'No rule text added yet.')}</div><div class="section-title">Found on cards</div><div class="list">${cards.map(cardItem).join('')||'<div class="empty">No matching cards found.</div>'}</div>`)}
+function openDrawer(html){$('drawer').innerHTML=`<div class="row" style="justify-content:space-between;margin-bottom:10px"><button class="btn small" onclick="closeDrawer()">Close</button></div>`+html; $('drawer').classList.add('open'); $('shade').classList.add('open'); bindDynamic()}
+function closeDrawer(){$('drawer').classList.remove('open');$('shade').classList.remove('open')}
+function bindDynamic(){document.querySelectorAll('[data-rule]').forEach(el=>el.onclick=e=>{e.stopPropagation();openRule(el.dataset.rule)});document.querySelectorAll('[data-open-card]').forEach(el=>el.onclick=()=>openCard(el.dataset.openCard));}
+function renderRules(){const q=($('rulesSearch')?.value||'').toLowerCase(); const terms=Object.keys(GLOSSARY).filter(t=>!q||t.toLowerCase().includes(q)||GLOSSARY[t].toLowerCase().includes(q)).sort(); $('rulesList').innerHTML=terms.map(t=>`<button class="item" data-rule="${esc(t)}"><h3>${esc(t)}</h3><div class="textblock">${esc(GLOSSARY[t])}</div></button>`).join(''); bindDynamic()}
+function loadArmy(){try{const saved=localStorage.getItem('tc_army_v1'); if(saved)army={...army,...JSON.parse(saved)}}catch(e){} $('armyFaction').value=army.faction; applyTheme(army.faction); populateCommander();}
+function saveArmy(){localStorage.setItem('tc_army_v1',JSON.stringify(army)); toast('Army saved on this phone.');}
+function available(role){return allCards.filter(c=>c.role===role&&(c.faction===army.faction||c.faction==='neutral')).sort((a,b)=>(Number(a.cost??99)-Number(b.cost??99)||a.name.localeCompare(b.name)))}
+function populateCommander(){const cmds=allCards.filter(c=>c.role==='commander'&&c.faction===army.faction).sort((a,b)=>a.name.localeCompare(b.name)); $('commanderSelect').innerHTML=`<option value="">Select commander</option>`+cmds.map(c=>`<option value="${c.id}">${esc(c.name)}${c.title?' — '+esc(c.title):''}</option>`).join(''); $('commanderSelect').value=army.commander||'';}
+function renderArmy(){applyTheme(army.faction); $('armyPoints').textContent=armyPoints(); populateCommander(); renderArmyGroup('armyUnits',army.units); renderArmyGroup('armyAttachments',army.attachments); renderArmyGroup('armyNcus',army.ncus); renderTactics();}
+function armyPoints(){return [...army.units,...army.attachments,...army.ncus].reduce((sum,id)=>sum+Number(allCards.find(c=>String(c.id)===String(id))?.cost||0),0)}
+function renderArmyGroup(el,ids){$(el).innerHTML=ids.map((id,i)=>{const c=allCards.find(x=>String(x.id)===String(id)); if(!c)return ''; return `<div class="army-line"><button class="item" style="padding:0;border:0;background:transparent" data-open-card="${c.id}"><strong>${esc(c.name)}</strong><div class="meta"><span>${esc(c._type)}</span><span class="points">${c.cost||0} pts</span></div></button><button class="btn small danger" data-remove="${el}:${i}">×</button></div>`}).join('')||`<div class="empty">None added.</div>`; bindDynamic(); document.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{const [group,i]=b.dataset.remove.split(':'); const key=group==='armyUnits'?'units':group==='armyAttachments'?'attachments':'ncus'; army[key].splice(Number(i),1); renderArmy();});}
+function renderTactics(){const base=allCards.filter(c=>c.role==='tactics'&&c.faction===army.faction&&!c.commander); const cmd=army.commander?allCards.filter(c=>c.role==='tactics'&&c.faction===army.faction&&String(c.commander?.id)===String(army.commander)):[]; $('tacticsDeck').innerHTML=`<div class="pill">Faction: ${base.length}</div> <div class="pill">Commander: ${cmd.length}</div><div class="section-title">Baseline Tactics</div>${base.map(cardItem).join('')||'<div class="empty">No faction tactics found.</div>'}<div class="section-title">Commander Tactics</div>${cmd.map(cardItem).join('')||'<div class="empty">Select a commander.</div>'}`; bindDynamic();}
+function choose(role){const cards=available(role); openDrawer(`<h2>Add ${cleanRole(role)}</h2><div class="list">${cards.map(c=>`<button class="item" data-add-card="${c.id}:${role}"><h3>${esc(c.name)}</h3><div class="meta"><span class="pill">${esc(FACTION_NAMES[c.faction]||c.faction)}</span><span class="pill points">${c.cost||0} pts</span>${c.title?`<span class="pill">${esc(c.title)}</span>`:''}</div>${statsLine(c)}</button>`).join('')||'<div class="empty">No cards available.</div>'}</div>`); document.querySelectorAll('[data-add-card]').forEach(b=>b.onclick=()=>{const [id,role]=b.dataset.addCard.split(':'); if(role==='unit')army.units.push(id); if(role==='attachment')army.attachments.push(id); if(role==='ncu')army.ncus.push(id); closeDrawer(); renderArmy(); saveArmy();});}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$(b.dataset.tab).classList.add('active');});
+['search','factionFilter','roleFilter','costFilter','sortFilter'].forEach(id=>$(id).addEventListener('input',renderCards));
+$('rulesSearch').addEventListener('input',renderRules); $('shade').onclick=closeDrawer;
+$('armyFaction').onchange=e=>{army={faction:e.target.value,limit:40,commander:null,units:[],attachments:[],ncus:[]}; saveArmy(); renderArmy();};
+$('commanderSelect').onchange=e=>{army.commander=e.target.value||null; saveArmy(); renderArmy();};
+$('addUnit').onclick=()=>choose('unit'); $('addAttachment').onclick=()=>choose('attachment'); $('addNcu').onclick=()=>choose('ncu'); $('saveArmy').onclick=saveArmy; $('clearArmy').onclick=()=>{if(confirm('Clear this army?')){army={...army,commander:null,units:[],attachments:[],ncus:[]};saveArmy();renderArmy();}};
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
+loadData();
+</script>
+</body>
+</html>
